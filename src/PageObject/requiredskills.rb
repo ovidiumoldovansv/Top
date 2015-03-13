@@ -41,10 +41,10 @@ class RequiredSkills < Abstract
     RequiredSkills.new(@driver)
   end
 
-  def click_next_required_skills
+  def click_next_required_skills_unsuccessful
     @driver.find_element(:css, '#new_job--step_required_skills > div.form > d'\
   'iv.form__controls > div.form__controls_submit > button.big_button').click
-    Confirmation.new(@driver)
+    RequiredSkills.new(@driver)
   end
 
   def click_back_required_skills
@@ -63,6 +63,12 @@ class RequiredSkills < Abstract
     Dashboard.new(@driver)
   end
 
+  def click_next_required_skills
+    @driver.find_element(:css, '#new_job--step_required_skills > div.form > d'\
+  'iv.form__controls > div.form__controls_submit > button.big_button').click
+    Confirmation.new(@driver)
+  end
+
   def check_first_warning
     xpath = '//div[6]/div/div[2]'
     wait_to_display_xpath(xpath)
@@ -77,8 +83,8 @@ class RequiredSkills < Abstract
   end
 
   def check_languages
-    @driver.find_element(:xpath, "//form[@id='new_job--step_required_skills']'\
-  '/div[2]/div/div/div[2]/div[2]/label/span").text
+    @driver.find_element(:xpath, "//form[@id='new_job--step_required_skills']"\
+  '/div[2]/div/div/div[2]/div[2]/label/span').text
   end
 
   def check_frameworks

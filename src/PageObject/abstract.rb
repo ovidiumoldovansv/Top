@@ -22,25 +22,6 @@ class Abstract
     @driver.quit
   end
 
-  def wait_to_display_id(value)
-    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
-    wait.until { (@driver.find_element(id: value).displayed?) }
-  end
-
-  def wait_to_display_css(value)
-    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
-    wait.until { (@driver.find_element(css: value).displayed?) }
-  end
-
-  def wait_to_display_xpath(value)
-    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
-    wait.until { (@driver.find_element(xpath: value).displayed?) }
-  end
-
-  def check_page_title
-    @driver.title
-  end
-
   def check_new
     @driver.find_element(:css, '.status_badge__status.is-new.js-tooltip').text
   end
@@ -150,6 +131,25 @@ class Abstract
   def check_tech_call
     @driver.find_element(:css, 'div.step.js-wizard__tab.is-next.is-last > div'\
   '.step__text > div').text
+  end
+
+  def check_page_title
+    @driver.title
+  end
+
+  def wait_to_display_id(value)
+    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
+    wait.until { (@driver.find_element(id: value).displayed?) }
+  end
+
+  def wait_to_display_css(value)
+    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
+    wait.until { (@driver.find_element(css: value).displayed?) }
+  end
+
+  def wait_to_display_xpath(value)
+    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
+    wait.until { (@driver.find_element(xpath: value).displayed?) }
   end
 
   def wait_for_value_equal(id, value)

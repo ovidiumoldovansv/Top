@@ -54,7 +54,8 @@ class Details < Abstract
   end
 
   def fill_spoken_languages_unsuccessful(value)
-    @driver.find_element(:id, 'new_job_languages').send_keys(value)
+    id = 'new_job_languages'
+    @driver.find_element(:id, id).send_keys(value)
     wait_for_value_equal(id, value)
     @driver.action.send_keys(:return).perform
     Details.new(@driver)
