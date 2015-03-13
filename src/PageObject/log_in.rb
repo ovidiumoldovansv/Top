@@ -28,8 +28,9 @@ class LogIn < Abstract
   end
 
   def check_error
-    wait_to_display_css('div.notification-message')
-    @driver.find_element(:css, 'div.notification-message').text
+    css = 'div.notification-message'
+    wait_to_display_css(css)
+    @driver.find_element(:css, css).text
   end
 
   def check_toptal_link

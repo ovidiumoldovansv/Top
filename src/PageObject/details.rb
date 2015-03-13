@@ -2,8 +2,64 @@ require_relative 'abstract'
 require_relative 'basic_info'
 require_relative 'requiredskills'
 
+# Module with the necessary checks
+module Checks
+  def check_language_warning
+    css = 'span.base_error__body'
+    wait_to_display_css(css)
+    @driver.find_element(:css, css).text
+  end
+
+  def check_first_warning
+    xpath = '//body/div[2]/div/div[2]/div/div[5]/div/div[2]'
+    wait_to_display_xpath(xpath)
+    @driver.find_element(:xpath, xpath).text
+  end
+
+  def check_second_warning
+    @driver.find_element(:xpath, '//div[5]/div[2]/div[2]').text
+  end
+
+  def check_desired_commitment
+    @driver.find_element(:id, 'new_job_commitment').attribute('value')
+  end
+
+  def check_time_zone_preference_yes
+    @driver.find_element(:id, 'job_prefer_timezone_yes').selected?
+  end
+
+  def check_time_zone
+    @driver.find_element(:id, 'new_job_time_zone_name').attribute('value')
+  end
+
+  def check_hours_overlap
+    @driver.find_element(:id, 'new_job_hours_overlap').attribute('value')
+  end
+
+  def check_start_date
+    @driver.find_element(:id, 'new_job_start_date').attribute('value')
+  end
+
+  def check_estimated_length
+    @driver.find_element(:id, 'new_job_estimated_length').attribute('value')
+  end
+
+  def check_spoken_languages
+    css = '#new_job--step_details > div.form > div.form__fields > div > div.u'\
+  'i-textbox.for-languages.is-big.is-new_job.is-wide.form-field.js-field_wrap'\
+  'per.languages.required.job_languages > div > div:nth-child(2) > span'
+    wait_to_display_css(css)
+    @driver.find_element(:css, css).text
+  end
+
+  def check_spoken_languages_input
+    @driver.find_element(:id, 'new_job_languages').attribute('value')
+  end
+end
+
 # Inherit Abstract methods
 class Details < Abstract
+  include Checks
   def initialize(driver)
     super(driver)
   end
@@ -91,57 +147,5 @@ class Details < Abstract
     wait_to_display_css(css)
     @driver.find_element(:css, css).click
     Dashboard.new(@driver)
-  end
-
-  def check_language_warning
-    css = 'span.base_error__body'
-    wait_to_display_css(css)
-    @driver.find_element(:css, css).text
-  end
-
-  def check_first_warning
-    xpath = '//body/div[2]/div/div[2]/div/div[5]/div/div[2]'
-    wait_to_display_xpath(xpath)
-    @driver.find_element(:xpath, xpath).text
-  end
-
-  def check_second_warning
-    @driver.find_element(:xpath, '//div[5]/div[2]/div[2]').text
-  end
-
-  def check_desired_commitment
-    @driver.find_element(:id, 'new_job_commitment').attribute('value')
-  end
-
-  def check_time_zone_preference_yes
-    @driver.find_element(:id, 'job_prefer_timezone_yes').selected?
-  end
-
-  def check_time_zone
-    @driver.find_element(:id, 'new_job_time_zone_name').attribute('value')
-  end
-
-  def check_hours_overlap
-    @driver.find_element(:id, 'new_job_hours_overlap').attribute('value')
-  end
-
-  def check_start_date
-    @driver.find_element(:id, 'new_job_start_date').attribute('value')
-  end
-
-  def check_estimated_length
-    @driver.find_element(:id, 'new_job_estimated_length').attribute('value')
-  end
-
-  def check_spoken_languages
-    css = '#new_job--step_details > div.form > div.form__fields > div > div.u'\
-  'i-textbox.for-languages.is-big.is-new_job.is-wide.form-field.js-field_wrap'\
-  'per.languages.required.job_languages > div > div:nth-child(2) > span'
-    wait_to_display_css(css)
-    @driver.find_element(:css, css).text
-  end
-
-  def check_spoken_languages_input
-    @driver.find_element(:id, 'new_job_languages').attribute('value')
   end
 end

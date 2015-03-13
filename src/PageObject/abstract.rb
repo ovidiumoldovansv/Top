@@ -2,20 +2,52 @@ require 'rspec'
 require 'selenium-webdriver'
 require_relative 'log_in'
 
-# Abstract class
-class Abstract
-  @driver = nil
-
-  def initialize(driver)
-    @driver = driver
-  end
-
+# Util module for the abstract class
+module Util
   def navigate_to_root
     @driver.navigate.to('https://toptal:staging@staging.toptal.net/users/logi'\
   'n')
     @driver.manage.timeouts.implicit_wait = 10 # seconds
     @driver.manage.window.maximize
     LogIn.new(@driver)
+  end
+
+  def check_page_title
+    @driver.title
+  end
+
+  def wait_until
+    Selenium::WebDriver::Wait.new(timeout: 10) # seconds
+  end
+
+  def wait_to_display_id(value)
+    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
+    wait.until { (@driver.find_element(id: value).displayed?) }
+  end
+
+  def wait_to_display_css(value)
+    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
+    wait.until { (@driver.find_element(css: value).displayed?) }
+  end
+
+  def wait_to_display_xpath(value)
+    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
+    wait.until { (@driver.find_element(xpath: value).displayed?) }
+  end
+
+  def wait_for_value_equal(id, value)
+    wait = wait_until
+    wait.until { (@driver.find_element(:id, id).attribute('value') == value) }
+  end
+end
+
+# Abstract class
+class Abstract
+  include Util
+  @driver = nil
+
+  def initialize(driver)
+    @driver = driver
   end
 
   def quit
@@ -131,33 +163,5 @@ class Abstract
   def check_tech_call
     @driver.find_element(:css, 'div.step.js-wizard__tab.is-next.is-last > div'\
   '.step__text > div').text
-  end
-
-  def check_page_title
-    @driver.title
-  end
-
-  def wait_to_display_id(value)
-    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
-    wait.until { (@driver.find_element(id: value).displayed?) }
-  end
-
-  def wait_to_display_css(value)
-    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
-    wait.until { (@driver.find_element(css: value).displayed?) }
-  end
-
-  def wait_to_display_xpath(value)
-    wait = Selenium::WebDriver::Wait.new(timeout: 10) # seconds
-    wait.until { (@driver.find_element(xpath: value).displayed?) }
-  end
-
-  def wait_for_value_equal(id, value)
-    wait = wait_until
-    wait.until { (@driver.find_element(:id, id).attribute('value') == value) }
-  end
-
-  def wait_until
-    Selenium::WebDriver::Wait.new(timeout: 10) # seconds
   end
 end

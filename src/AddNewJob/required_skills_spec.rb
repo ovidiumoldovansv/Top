@@ -28,8 +28,8 @@ RSpec.describe 'Required Skills' do
            .click_next_details
            .click_next_required_skills_unsuccessful
 
-    expect(test.check_first_warning).to be == 'You need to specify at least o'\
-  'ne skill'
+    expect(test.check_first_warning_required_skills).to be == 'You need to sp'\
+  'ecify at least one skill'
   end
 
   it 'Required Skills - Check pertinence of skills' do
